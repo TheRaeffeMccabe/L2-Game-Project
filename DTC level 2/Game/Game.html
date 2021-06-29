@@ -1,0 +1,103 @@
+<!doctype html>
+<head>
+    <title>12 Credits</title>
+</head>
+<body>
+    <canvas id="gameCanvas" width="600" height="600"></canvas>
+
+
+    <script>
+        var canvas;
+        var canvasContext;
+
+        window.onload = function(){
+            canvas = document.getElementById('gameCanvas');
+            canvasContext = canvas.getContext('2d');
+            
+            setInterval(mainloop , 50/1000);
+        }
+        var pXpos = 20;
+        var pYpos = 11;
+        const SIZE = 20;
+        var pXspeed = 5;
+        var pYspeed= 5;
+
+        var setup = true;
+
+        function mainloop(){
+            if(setup){
+                for(var i = 0; i < 10 ; i++ ){
+                
+                makePlayer();
+            }
+            setup = false;
+
+            
+            }
+            colorRect(0,0,canvas.width, canvas.height, 'black');
+            colorRect(pXpos,pYpos,SIZE,SIZE, 'blue');
+            playerMove();
+        }
+
+        function playerMove(){
+            pXpos += pXspeed;
+            pXpos += pYspeed;
+
+            if(pXpos = SIZE > canvas.width){// right bounce
+                pXspeed *= -1;
+            }
+            if(pXpos < 0){ // Left bounce
+                pXspeed *= -1;
+            }
+    
+            if(pYpos + SIZE > canvas.height){ 
+                pYspeed *= -1;
+            }
+    
+            if(pYpos < 0){
+                pYspeed *= -1;
+            }
+        } // end func
+
+        function playerDraw(){
+            players.forEach(function(plaer,i,array){
+
+            });
+        }
+
+        var players = [];
+
+        function makePlayer(){
+
+            var size = Math.floor(Math.random()*(32 - 11) + 5);
+            var pXpos = Math.floor(Math.random()*(canvas.width-size));
+            var pYpos = Math.floor(Math.random()*(canvas.height-size));
+            var pXspeed = Math.floor(Math.random()*(20-3) + 2);
+            var pYspeed = Math.floor(Math.random()*(20-3) + 2);
+
+            var player = {
+                pXpos: pXpos,
+                pYpos: pYpos,
+                size: size,
+                pXspeed: pXspeed,
+                pYspeed: pYspeed
+
+            }
+            players.push(player);
+        }
+
+        function colorRect(x,y,w,h,c){
+            canvasContext.fillStyle= c;
+            canvasContext.fillRect(x,y,w,h);
+
+            
+        }
+        
+    </script>
+
+</body>
+
+
+
+
+
