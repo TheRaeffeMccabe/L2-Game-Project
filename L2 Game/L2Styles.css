@@ -1,23 +1,25 @@
 html {
-    background-color: red;
+    background-color: black;
     background-image: url(Images/HUD.png);
     background-repeat: false;
     background-size: 100vw 100vh;
     
 }
+/* This is to diplay the background (HUD) */
 
 body{
     margin: 0px;
     display: grid;
     grid-template-columns: 1fr 5.5fr 1fr;
 }
+/* Body for the grids to put canvas in */
 
 canvas {
     grid-column: 2/3;;
     display: block;
     width: 100%;
-    margin: 4vh 0px;
-    margin-left: 1%;
+    margin: 4vh 9px;
     height: 68vh;
-    background-color: green;
+    background-color: black;
 }
+/* Canvas for the game over the background (HUD) */
