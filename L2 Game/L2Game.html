@@ -11,30 +11,85 @@
         window.onload = function(){
             canvas = document.getElementById('gameCanvas');
             canvasContext = canvas.getContext('2d');
+            
+            document.addEventListener('keydown', keyPressed);
+            document.addEventListener('keyup', keyReleased);
 
             setInterval(mainloop, 1000/50);
             
         }
     // Player Vars  
-    var ship = new Image();
-    ship.src = 'Images/TestSprite.png';
-    var shipXpos = 0;
-    var shipYpos = 400;
-    var shipXspeed = 5;
-    var shipYspeed = 0;
+    var player = new Image();
+    player.src = 'Images/TestSprite.png';
+    var playerXpos = 3;
+    var playerYpos = 400;
+    var playerXspeed = 5;
+    var playerYspeed = 0;
 
+    // Key Vars
+    var leftKeyPress = false;
+    var rightKeyPress = false;
+    var upKeyPress = false;
+    var downKeyPress = false;
         
+    const LEFT_KEY = 37;
+    const RIGHT_KEY = 39;
+    const UP_KEY = 38;
+    const DOWN_KEY = 40;
         
         
     function mainloop(){
         colorRect(0,0,canvas.width,canvas.height,'black')// Canvas
-        drawImage(ship,shipXpos,shipYpos,60,32,'red')// PLayer
+        drawImage(player,playerXpos,playerYpos,60,32,'red')// PLayer
         
-        shipMove();
-    }
+        playerMove();
+    }   
+        // Key Pressed Function
+        function keyPressed(evt){
+            if(evt.keyCode == LEFT_KEY){
+                leftKeyPress == true;
+            }
+            if(evt.keyCode == RIGHT_KEY){
+                rightKeyPress == true;
+            }
+            if(evt.keyCode == UP_KEY){
+                upKeyPress == true;
+            }
+            if(evt.keyCode == DOWN_KEY){
+                downKeyPress == true;
+            }
+        }
+        
+        // Key Released Function
+        function keyReleased(evt){
+            if(evt.keyCode == LEFT_KEY){
+                leftKeyPress == false;
+            }
+            if(evt.keyCode == RIGHT_KEY){
+                rightKeyPress == false;
+            }
+            if(evt.keyCode == UP_KEY){
+                upKeyPress == false;
+            }
+            if(evt.keyCode == DOWN_KEY){
+                downKeyPress == false;
+            }
+            
+        }
     
-    function shipMove(){
-        shipYpos -= shipXspeed;
+    function playerMove(){
+        if (leftKeyPress){
+            playerXpos -= playerXspeed;
+        }
+        if (rightKeyPress){
+            playerXpos += playerXspeed;
+        }
+        if (upKeyPress){
+            playerYpos -= playerYspeed;
+        }
+        if (leftKeyPress){
+            playerYpos += playerYspeed;
+        }
     }
 
     function colorRect(x,y,w,h,c){
