@@ -18,7 +18,7 @@ canvas {
     grid-column: 2/3;;
     display: block;
     width: 100%;
-    margin: 4vh 9px;
+    margin: 4vh 5px;
     height: 68vh;
     background-color: black;
 }

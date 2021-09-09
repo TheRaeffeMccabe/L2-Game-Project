@@ -20,40 +20,73 @@
         }
     // Player Vars  
     var player = new Image();
-    player.src = 'Images/TestSprite.png';
-    var playerXpos = 3;
-    var playerYpos = 400;
-    var playerXspeed = 5;
+    player.src = 'Images/Player Edited.png';
+    var playerXpos = 250;
+    var playerYpos = 500;
+    var playerXspeed = 15;
     var playerYspeed = 0;
+    var PLAYER_SIZE = 20;
+    
+    // Enemy Vars
+    var enemy = new Image();
+    enemy.src= 'Images/Enemy Edited.png';
+    var enemyXpos = 0;
+    var enemyYpos = 0;
+    var enemyXspeed = 5;
+    var enemyYspeed = 5;
+    var ENEMY_SIZE = 130;
+    
 
     // Key Vars
     var leftKeyPress = false;
     var rightKeyPress = false;
     var upKeyPress = false;
-    var downKeyPress = false;
-        
+    var downKeyPress = false;  
     const LEFT_KEY = 37;
     const RIGHT_KEY = 39;
     const UP_KEY = 38;
     const DOWN_KEY = 40;
+    
+    // Background Vars
+    var backgroundWidth = 700;
+    var backgroundHeight = 700;
+    var background = new Image();
+    background.src = 'Images/Background 2.png';
         
         
     function mainloop(){
-        colorRect(0,0,canvas.width,canvas.height,'black')// Canvas
-        drawImage(player,playerXpos,playerYpos,60,32,'red')// PLayer
+        drawImage(background,0,0,backgroundHeight,backgroundWidth,'background')// Canvas
+        drawImage(player,playerXpos,playerYpos,120,100,'red')// Player
+        drawImage(enemy,enemyXpos,enemyYpos,ENEMY_SIZE,ENEMY_SIZE,'red')// Enemy
+        
         
         playerMove();
+        enemyMove();
     }   
+        function enemyMove(){
+            enemyYpos += enemyYspeed;
+            
+            if(enemyYpos > canvas.height){
+                enemyYpos = 0 - ENEMY_SIZE;
+                enemyXpos = Math.floor(Math.random()*(canvas.width - ENEMY_SIZE));
+                enemyYspeed = Math.floor(Math.random()*(12 - 5) + 3);
+            }
+            
+            if(enemyYpos + ENEMY_SIZE > playerYpos && enemyYpos < playerYpos + PLAYER_SIZE && enemyXpos + ENEMY_SIZE > playerXpos && enemyXpos < playerXpos + PLAYER_SIZE){
+               console.log('hit');
+               }
+        }
+    
         // Key Pressed Function
         function keyPressed(evt){
             if(evt.keyCode == LEFT_KEY){
-                leftKeyPress == true;
+                leftKeyPress = true;
             }
             if(evt.keyCode == RIGHT_KEY){
-                rightKeyPress == true;
+                rightKeyPress = true;
             }
             if(evt.keyCode == UP_KEY){
-                upKeyPress == true;
+                upKeyPress = true;
             }
             if(evt.keyCode == DOWN_KEY){
                 downKeyPress == true;
@@ -63,20 +96,20 @@
         // Key Released Function
         function keyReleased(evt){
             if(evt.keyCode == LEFT_KEY){
-                leftKeyPress == false;
+                leftKeyPress = false;
             }
             if(evt.keyCode == RIGHT_KEY){
-                rightKeyPress == false;
+                rightKeyPress = false;
             }
             if(evt.keyCode == UP_KEY){
-                upKeyPress == false;
+                upKeyPress = false;
             }
             if(evt.keyCode == DOWN_KEY){
-                downKeyPress == false;
+                downKeyPress = false;
             }
             
         }
-    
+        //player moves
     function playerMove(){
         if (leftKeyPress){
             playerXpos -= playerXspeed;
