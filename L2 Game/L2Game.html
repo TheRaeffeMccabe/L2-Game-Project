@@ -30,12 +30,15 @@
     // Enemy Vars
     var enemy = new Image();
     enemy.src= 'Images/Enemy Edited.png';
-    var enemyXpos = 0;
-    var enemyYpos = 0;
-    var enemyXspeed = 5;
-    var enemyYspeed = 5;
-    var ENEMY_SIZE = 130;
+    //var enemyXpos = 0;
+    //var enemyYpos = 0;
+    //var enemyXspeed = 5;
+    //var enemyYspeed = 5;
+    //var ENEMY_SIZE = 130;
     
+    var enemies = [];
+    var startingPos = true;
+    // https://www.youtube.com/watch?v=D1rAEDH1_94&list=PLac47Xzi2DZ4Dss037nILwemdUXjHt-DQ&index=6 at 9:19
 
     // Key Vars
     var leftKeyPress = false;
@@ -52,6 +55,8 @@
     var backgroundHeight = 700;
     var background = new Image();
     background.src = 'Images/Background 2.png';
+    
+    var life = 3;
         
         
     function mainloop(){
@@ -59,10 +64,35 @@
         drawImage(player,playerXpos,playerYpos,120,100,'red')// Player
         drawImage(enemy,enemyXpos,enemyYpos,ENEMY_SIZE,ENEMY_SIZE,'red')// Enemy
         
-        
+        makeEnemy();
         playerMove();
         enemyMove();
-    }   
+    } // Mainloop
+        
+    
+       function makeEnemy(){
+        var enemyPos = Math.floor(Math.random()* 3) + 1;
+        
+        const ENEMY_SIZE = 40;
+        //var enemyXpos = Math.floor(Math.random()*(canvas.width - ENEMY_SIZE));
+        var enemyXpos = enemyPos * canvas.width / 3;
+        var enemyYpos = 0 - ENEMY_SIZE;
+        var enemyXspeed = Math.floor(Math.random() * (12 - 5) + 3);
+        var enemyYspeed = Math.floor(Math.random() * (12 - 5) + 3);
+           
+        var enemy = {
+            enemyXpos: enemyXpos,
+            enemyYpos: enemyYpos,
+            ENEMY_SIZE: ENEMY_SIZE,
+            enemyYspeed: enemyYspeed,
+            enemyXspeed: enemyYspeed
+            
+        }
+        
+        enemies.push(enemy);
+        
+    }// Make multiple enemys
+        
         function enemyMove(){
             enemyYpos += enemyYspeed;
             
@@ -73,9 +103,12 @@
             }
             
             if(enemyYpos + ENEMY_SIZE > playerYpos && enemyYpos < playerYpos + PLAYER_SIZE && enemyXpos + ENEMY_SIZE > playerXpos && enemyXpos < playerXpos + PLAYER_SIZE){
-               console.log('hit');
+               playerXpos = 250;
+               playerYpos = 500;
+               life--;
+                console.log('life:' + life);
                }
-        }
+        }// Enemy moving and collision
     
         // Key Pressed Function
         function keyPressed(evt){
