@@ -28,17 +28,18 @@
     var PLAYER_SIZE = 20;
     
     // Enemy Vars
-    var enemy = new Image();
-    enemy.src= 'Images/Enemy Edited.png';
-    //var enemyXpos = 0;
-    //var enemyYpos = 0;
-    //var enemyXspeed = 5;
-    //var enemyYspeed = 5;
-    //var ENEMY_SIZE = 130;
+    var enemyPic = new Image();
+    enemyPic.src= 'Images/Enemy Edited.png';
+//    var enemyXpos = 0;
+//    var enemyYpos = 0;
+//    var enemyXspeed = 5;
+//    var enemyYspeed = 5;
+//    var ENEMY_SIZE = 130;
     
     var enemies = [];
+    var totalEnimies = 1;
     var startingPos = true;
-    // https://www.youtube.com/watch?v=D1rAEDH1_94&list=PLac47Xzi2DZ4Dss037nILwemdUXjHt-DQ&index=6 at 9:19
+    
 
     // Key Vars
     var leftKeyPress = false;
@@ -57,16 +58,25 @@
     background.src = 'Images/Background 2.png';
     
     var life = 3;
-        
+    
         
     function mainloop(){
         drawImage(background,0,0,backgroundHeight,backgroundWidth,'background')// Canvas
         drawImage(player,playerXpos,playerYpos,120,100,'red')// Player
-        drawImage(enemy,enemyXpos,enemyYpos,ENEMY_SIZE,ENEMY_SIZE,'red')// Enemy
         
+         if(startingPos){
+           for(i=0; i < totalEnimies; i++){
+                makeEnemy();
+             
+            }
+            startingPos = false;
+        }
+        
+        
+        enemyMove();
         makeEnemy();
         playerMove();
-        enemyMove();
+        drawnEnemy();
     } // Mainloop
         
     
@@ -92,22 +102,34 @@
         enemies.push(enemy);
         
     }// Make multiple enemys
+    
+    function drawnEnemy(){
+        enemies.forEach(function(enemy, i){
+            drawImage(enemyPic, enemy.enemyXpos, enemy.enemyYpos,enemy.ENEMY_SIZE,enemy.ENEMY_SIZE,'red')// Enemys Spawn
+        });
+    }
+        
         
         function enemyMove(){
-            enemyYpos += enemyYspeed;
+            enemies.forEach(function(enemy){
+                
             
-            if(enemyYpos > canvas.height){
-                enemyYpos = 0 - ENEMY_SIZE;
-                enemyXpos = Math.floor(Math.random()*(canvas.width - ENEMY_SIZE));
-                enemyYspeed = Math.floor(Math.random()*(12 - 5) + 3);
+            
+            enemy.enemyYpos += enemy.enemyYspeed;
+            
+            if(enemy.enemyYpos > canvas.height){
+                enemy.enemyYpos = 0 - enemy.ENEMY_SIZE;
+                enemy.enemyXpos = Math.floor(Math.random()*(canvas.width - enemy.ENEMY_SIZE));
+                enemy.enemyYspeed = Math.floor(Math.random()*(12 - 5) + 3);
             }
             
-            if(enemyYpos + ENEMY_SIZE > playerYpos && enemyYpos < playerYpos + PLAYER_SIZE && enemyXpos + ENEMY_SIZE > playerXpos && enemyXpos < playerXpos + PLAYER_SIZE){
+            if(enemy.enemyYpos + enemy.ENEMY_SIZE > playerYpos && enemy.enemyYpos < playerYpos + PLAYER_SIZE && enemy.enemyXpos + enemy.ENEMY_SIZE > playerXpos && enemy.enemyXpos < playerXpos + PLAYER_SIZE){
                playerXpos = 250;
                playerYpos = 500;
                life--;
                 console.log('life:' + life);
                }
+            });
         }// Enemy moving and collision
     
         // Key Pressed Function
