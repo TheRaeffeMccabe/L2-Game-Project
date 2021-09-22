@@ -30,16 +30,9 @@
     // Enemy Vars
     var enemyPic = new Image();
     enemyPic.src= 'Images/Enemy Edited.png';
-//    var enemyXpos = 0;
-//    var enemyYpos = 0;
-//    var enemyXspeed = 5;
-//    var enemyYspeed = 5;
-//    var ENEMY_SIZE = 130;
-    
     var enemies = [];
     var totalEnimies = 1;
     var startingPos = true;
-    
 
     // Key Vars
     var leftKeyPress = false;
@@ -59,7 +52,7 @@
     
     var life = 3;
     
-        
+     // Mainloop  
     function mainloop(){
         drawImage(background,0,0,backgroundHeight,backgroundWidth,'background')// Canvas
         drawImage(player,playerXpos,playerYpos,120,100,'red')// Player
@@ -77,18 +70,17 @@
         makeEnemy();
         playerMove();
         drawnEnemy();
-    } // Mainloop
+    }
         
-    
+       // Make multiple enemys
        function makeEnemy(){
-        var enemyPos = Math.floor(Math.random()* 3) + 1;
-        
-        const ENEMY_SIZE = 40;
-        //var enemyXpos = Math.floor(Math.random()*(canvas.width - ENEMY_SIZE));
-        var enemyXpos = enemyPos * canvas.width / 3;
+        var enemyPos = Math.floor(Math.random()* 9) + 4;
+           
+        const ENEMY_SIZE = 10;
+        var enemyXpos = enemyPos * (canvas.width / 1);
         var enemyYpos = 0 - ENEMY_SIZE;
-        var enemyXspeed = Math.floor(Math.random() * (12 - 5) + 3);
-        var enemyYspeed = Math.floor(Math.random() * (12 - 5) + 3);
+        var enemyXspeed = Math.floor(Math.random() * (3 - 2) + 1);
+        var enemyYspeed = Math.floor(Math.random() * (3 - 1) + 3);
            
         var enemy = {
             enemyXpos: enemyXpos,
@@ -101,26 +93,24 @@
         
         enemies.push(enemy);
         
-    }// Make multiple enemys
-    
+    }
+    // Enemys Spawn
     function drawnEnemy(){
         enemies.forEach(function(enemy, i){
-            drawImage(enemyPic, enemy.enemyXpos, enemy.enemyYpos,enemy.ENEMY_SIZE,enemy.ENEMY_SIZE,'red')// Enemys Spawn
+            drawImage(enemyPic, enemy.enemyXpos, enemy.enemyYpos,enemy.ENEMY_SIZE,enemy.ENEMY_SIZE,'red')
         });
     }
         
-        
+        // Enemy moving and collision
         function enemyMove(){
             enemies.forEach(function(enemy){
-                
-            
-            
             enemy.enemyYpos += enemy.enemyYspeed;
-            
             if(enemy.enemyYpos > canvas.height){
                 enemy.enemyYpos = 0 - enemy.ENEMY_SIZE;
-                enemy.enemyXpos = Math.floor(Math.random()*(canvas.width - enemy.ENEMY_SIZE));
-                enemy.enemyYspeed = Math.floor(Math.random()*(12 - 5) + 3);
+                
+//                var enemyPos = Math.floor(Math.random()* 2) + 1;
+                enemy.enemyXpos = Math.floor(Math.random()*(canvas.width-enemy.ENEMY_SIZE));
+                enemy.enemyYspeed = Math.floor(Math.random()*(9 - 3) + 2);
             }
             
             if(enemy.enemyYpos + enemy.ENEMY_SIZE > playerYpos && enemy.enemyYpos < playerYpos + PLAYER_SIZE && enemy.enemyXpos + enemy.ENEMY_SIZE > playerXpos && enemy.enemyXpos < playerXpos + PLAYER_SIZE){
@@ -130,7 +120,7 @@
                 console.log('life:' + life);
                }
             });
-        }// Enemy moving and collision
+        }
     
         // Key Pressed Function
         function keyPressed(evt){
