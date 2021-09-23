@@ -25,13 +25,16 @@
     var playerYpos = 500;
     var playerXspeed = 15;
     var playerYspeed = 0;
-    var PLAYER_SIZE = 20;
+    var PLAYER_SIZE = 40;
+    
+    //Username Difficulty
+    var userName = '';
     
     // Enemy Vars
     var enemyPic = new Image();
     enemyPic.src= 'Images/Enemy Edited.png';
     var enemies = [];
-    var totalEnimies = 1;
+    var totalEnimies = 12;
     var startingPos = true;
 
     // Key Vars
@@ -58,7 +61,7 @@
         drawImage(player,playerXpos,playerYpos,120,100,'red')// Player
         
          if(startingPos){
-           for(i=0; i < totalEnimies; i++){
+           for(i = 0; i < totalEnimies; i++){
                 makeEnemy();
              
             }
@@ -67,7 +70,7 @@
         
         
         enemyMove();
-        makeEnemy();
+
         playerMove();
         drawnEnemy();
     }
@@ -76,11 +79,11 @@
        function makeEnemy(){
         var enemyPos = Math.floor(Math.random()* 9) + 4;
            
-        const ENEMY_SIZE = 10;
+        const ENEMY_SIZE = 40;
         var enemyXpos = enemyPos * (canvas.width / 1);
         var enemyYpos = 0 - ENEMY_SIZE;
-        var enemyXspeed = Math.floor(Math.random() * (3 - 2) + 1);
-        var enemyYspeed = Math.floor(Math.random() * (3 - 1) + 3);
+        var enemyXspeed = Math.floor(Math.random() * (10 - 2) + 1);
+        var enemyYspeed = Math.floor(Math.random() * (10 - 1) + 3);
            
         var enemy = {
             enemyXpos: enemyXpos,
@@ -136,7 +139,37 @@
             if(evt.keyCode == DOWN_KEY){
                 downKeyPress == true;
             }
+        }// End Func
+        
+        
+        // End Screen
+        function colorText(msg, x, y, f, c) {
+            canvasContext.fillStyle = c;
+            canvasContext.font = f;
+            canvasContext.fillText(msg, x, y);
+
+        }//End Func
+        
+        //Username
+         while (userName == '' || userName == null) {// username
+            userName = prompt('Enter Username');
         }
+        
+        var difficulty = 'Easy';
+        var pass = false;
+        while (pass == false){
+            difficulty = prompt('How Hard? Easy, Medium or Hard?', 'Easy'); // Difficulty
+            if (difficulty = 'Easy'){
+                totalEnimies = 1;
+                pass = true;
+            }
+            if (difficulty = 'Medium'){
+                totalEnimies = 10;
+                pass = true;
+            }//|| difficulty == 'Medium' || difficulty == 'Hard'){
+                
+            }
+        //}//End
         
         // Key Released Function
         function keyReleased(evt){
@@ -179,6 +212,8 @@
         canvasContext.drawImage(src,x,y,w,h);
 
     }
+    
+        
 
         
     </script>
