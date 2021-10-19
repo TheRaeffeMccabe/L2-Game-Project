@@ -5,6 +5,7 @@
 </head>
 <body>
     <canvas id="gameCanvas" width="600" height="600"></canvas>
+    
     <script>
         var canvas, canvasContext;
 
@@ -26,9 +27,12 @@
     var playerXspeed = 15;
     var playerYspeed = 0;
     var PLAYER_SIZE = 40;
-    
+    var timer = 0;
+        
+        
     //Username Difficulty
     var userName = '';
+    var deathscreen = false;
     
     // Enemy Vars
     var enemyPic = new Image();
@@ -36,16 +40,20 @@
     var enemies = [];
     var totalEnimies = 12;
     var startingPos = true;
+    
 
     // Key Vars
     var leftKeyPress = false;
     var rightKeyPress = false;
     var upKeyPress = false;
-    var downKeyPress = false;  
+    var downKeyPress = false; 
+    var enterKeyPress = false;
     const LEFT_KEY = 37;
     const RIGHT_KEY = 39;
     const UP_KEY = 38;
     const DOWN_KEY = 40;
+    const ENTER_KEY = 13;
+        
     
     // Background Vars
     var backgroundWidth = 700;
@@ -53,28 +61,52 @@
     var background = new Image();
     background.src = 'Images/Background 2.png';
     
+    //Death Screen Vars
+    var DeathScreenWidth = 700;
+    var DeathScreenHeight = 700;
+    var DeathScreen = new Image();
+    DeathScreen.src = 'Images/GamerOverScreen.png';
+        
     var life = 3;
     
      // Mainloop  
     function mainloop(){
-        drawImage(background,0,0,backgroundHeight,backgroundWidth,'background')// Canvas
-        drawImage(player,playerXpos,playerYpos,120,100,'red')// Player
         
-         if(startingPos){
-           for(i = 0; i < totalEnimies; i++){
-                makeEnemy();
-             
+        if(deathscreen == false){
+         timer++  
+        if(timer > 2000){
+           deathscreen = true;
+        }
+            console.log(timer)
+            drawImage(background,0,0,backgroundHeight,backgroundWidth,'background')// Canvas
+            drawImage(player,playerXpos,playerYpos,80,60,'red')// Player
+
+
+             if(startingPos){
+               for(i = 0; i < totalEnimies; i++){
+                    makeEnemy();
+
+                }
+                 
+                startingPos = false;
             }
-            startingPos = false;
+            
+            enemyMove();
+            playerMove();
+            drawnEnemy();
+            
         }
         
+        if (deathscreen == true){
+                drawImage(DeathScreen,-50,-70,DeathScreenWidth,DeathScreenHeight,'DeathScreen')
+                
+            }
         
-        enemyMove();
 
-        playerMove();
-        drawnEnemy();
-    }
-        
+    }//MainLoop End
+    
+    
+    
        // Make multiple enemys
        function makeEnemy(){
         var enemyPos = Math.floor(Math.random()* 9) + 4;
@@ -99,8 +131,9 @@
     }
     // Enemys Spawn
     function drawnEnemy(){
+        
         enemies.forEach(function(enemy, i){
-            drawImage(enemyPic, enemy.enemyXpos, enemy.enemyYpos,enemy.ENEMY_SIZE,enemy.ENEMY_SIZE,'red')
+        drawImage(enemyPic, enemy.enemyXpos, enemy.enemyYpos,enemy.ENEMY_SIZE,enemy.ENEMY_SIZE,'red')
         });
     }
         
@@ -121,6 +154,7 @@
                playerYpos = 500;
                life--;
                 console.log('life:' + life);
+                deathscreen = true;
                }
             });
         }
@@ -138,6 +172,9 @@
             }
             if(evt.keyCode == DOWN_KEY){
                 downKeyPress == true;
+            }
+            if(evt.keyCode == ENTER_KEY){
+                enterKeyPress = true;
             }
         }// End Func
         
@@ -159,22 +196,30 @@
         var pass = false;
         while (pass == false){
             difficulty = prompt('How Hard? Easy, Medium or Hard?', 'Easy'); // Difficulty
-            if (difficulty = 'Easy'){
-                totalEnimies = 1;
+            if (difficulty == 'Easy'){
+                totalEnimies = 4;
                 pass = true;
-            }
-            if (difficulty = 'Medium'){
-                totalEnimies = 10;
+            } //Easy difficulty
+            
+            if (difficulty == 'Medium'){
+                totalEnimies = 7;
                 pass = true;
-            }//|| difficulty == 'Medium' || difficulty == 'Hard'){
-                
-            }
-        //}//End
+            } //Medium difficulty
+            
+            if (difficulty == 'Hard'){
+                totalEnimies = 20;
+                pass = true;
+            } //Hard difficulty
+        }
+        
+     
+              
+
         
         // Key Released Function
         function keyReleased(evt){
             if(evt.keyCode == LEFT_KEY){
-                leftKeyPress = false;
+                leftKeyPress = false;    
             }
             if(evt.keyCode == RIGHT_KEY){
                 rightKeyPress = false;
@@ -184,6 +229,9 @@
             }
             if(evt.keyCode == DOWN_KEY){
                 downKeyPress = false;
+            }
+            if(evt.keyCode == ENTER_KEY){
+                enterKeyPress = false;
             }
             
         }
@@ -201,12 +249,16 @@
         if (leftKeyPress){
             playerYpos += playerYspeed;
         }
+        if (enterKeyPress){
+            pass = true;
+        }
     }
 
     function colorRect(x,y,w,h,c){
         canvasContext.fillStyle = c;
         canvasContext.fillRect(x,y,w,h);
     }
+
 
     function drawImage(src,x,y,w,h){
         canvasContext.drawImage(src,x,y,w,h);
