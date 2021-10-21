@@ -66,18 +66,23 @@
     var DeathScreenHeight = 700;
     var DeathScreen = new Image();
     DeathScreen.src = 'Images/GamerOverScreen.png';
-        
-    var life = 3;
+    
+    //Win Screen Vars
+    var WinScreenWidth = 700;
+    var WinScreenHeight = 700;
+    var WinScreen = new Image();
+    WinScreen.src = 'Images/GameWinScreen.png';
+    var winscreen = false;
+
     
      // Mainloop  
     function mainloop(){
         
-        if(deathscreen == false){
+        if(winscreen == false){
          timer++  
-        if(timer > 2000){
-           deathscreen = true;
+        if(timer > 4000){
+           winscreen = true;
         }
-            console.log(timer)
             drawImage(background,0,0,backgroundHeight,backgroundWidth,'background')// Canvas
             drawImage(player,playerXpos,playerYpos,80,60,'red')// Player
 
@@ -96,12 +101,16 @@
             drawnEnemy();
             
         }
-        
+        //Display Death Screen
         if (deathscreen == true){
                 drawImage(DeathScreen,-50,-70,DeathScreenWidth,DeathScreenHeight,'DeathScreen')
                 
             }
-        
+        //Display Win Screen
+        if (winscreen == true){
+                drawImage(WinScreen,-50,-70,WinScreenWidth,WinScreenHeight,'WinScreen')
+                
+            }
 
     }//MainLoop End
     
@@ -142,18 +151,14 @@
             enemies.forEach(function(enemy){
             enemy.enemyYpos += enemy.enemyYspeed;
             if(enemy.enemyYpos > canvas.height){
-                enemy.enemyYpos = 0 - enemy.ENEMY_SIZE;
-                
-//                var enemyPos = Math.floor(Math.random()* 2) + 1;
-                enemy.enemyXpos = Math.floor(Math.random()*(canvas.width-enemy.ENEMY_SIZE));
-                enemy.enemyYspeed = Math.floor(Math.random()*(9 - 3) + 2);
+                    enemy.enemyYpos = 0 - enemy.ENEMY_SIZE;
+                    enemy.enemyXpos = Math.floor(Math.random()*(canvas.width-enemy.ENEMY_SIZE));
+                    enemy.enemyYspeed = Math.floor(Math.random()*(9 - 3) + 2);
             }
             
-            if(enemy.enemyYpos + enemy.ENEMY_SIZE > playerYpos && enemy.enemyYpos < playerYpos + PLAYER_SIZE && enemy.enemyXpos + enemy.ENEMY_SIZE > playerXpos && enemy.enemyXpos < playerXpos + PLAYER_SIZE){
+            if(enemy.enemyYpos + enemy.ENEMY_SIZE > playerYpos && enemy.enemyYpos < playerYpos + PLAYER_SIZE &&             enemy.enemyXpos + enemy.ENEMY_SIZE > playerXpos && enemy.enemyXpos < playerXpos + PLAYER_SIZE){
                playerXpos = 250;
                playerYpos = 500;
-               life--;
-                console.log('life:' + life);
                 deathscreen = true;
                }
             });
