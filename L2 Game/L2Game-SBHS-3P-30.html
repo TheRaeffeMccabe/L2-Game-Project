@@ -67,30 +67,28 @@
     var DeathScreen = new Image();
     DeathScreen.src = 'Images/GamerOverScreen.png';
     
-    //Win Screen Vars
+    // Win Screen Vars
     var WinScreenWidth = 700;
     var WinScreenHeight = 700;
     var WinScreen = new Image();
     WinScreen.src = 'Images/GameWinScreen.png';
     var winscreen = false;
-
-    
+        
+        
+        
      // Mainloop  
     function mainloop(){
         
-        // This is the timer that counts down by frames
         if(winscreen == false){
          timer++  
-        
-        // This will activate the win screen after 40 secounds 
-        if(timer > 4000){
+        if(timer > 300){
            winscreen = true;
-        }   
-            //These display the character and background
+        }
+            console.log(timer)
             drawImage(background,0,0,backgroundHeight,backgroundWidth,'background')// Canvas
             drawImage(player,playerXpos,playerYpos,80,60,'red')// Player
 
-            
+
              if(startingPos){
                for(i = 0; i < totalEnimies; i++){
                     makeEnemy();
@@ -105,18 +103,16 @@
             drawnEnemy();
             
         }
-        //Display Death Screen
+        
         if (deathscreen == true){
                 drawImage(DeathScreen,-50,-70,DeathScreenWidth,DeathScreenHeight,'DeathScreen')
                 
             }
-        //Display Win Screen
         if (winscreen == true){
                 drawImage(WinScreen,-50,-70,WinScreenWidth,WinScreenHeight,'WinScreen')
-                colorText(userName, -50, -70, '70px Arial', 'white')
-                colorText(timer, -50, -70, '70px Arial', 'white')
                 
             }
+        
 
     }//MainLoop End
     
@@ -141,13 +137,12 @@
             
         }
         
-        //This pushes enemy into the array
         enemies.push(enemy);
         
     }
-        
     // Enemys Spawn
     function drawnEnemy(){
+        
         enemies.forEach(function(enemy, i){
         drawImage(enemyPic, enemy.enemyXpos, enemy.enemyYpos,enemy.ENEMY_SIZE,enemy.ENEMY_SIZE,'red')
         });
@@ -157,16 +152,18 @@
         function enemyMove(){
             enemies.forEach(function(enemy){
             enemy.enemyYpos += enemy.enemyYspeed;
-            
             if(enemy.enemyYpos > canvas.height){
-                    enemy.enemyYpos = 0 - enemy.ENEMY_SIZE;
-                    enemy.enemyXpos = Math.floor(Math.random()*(canvas.width-enemy.ENEMY_SIZE));
-                    enemy.enemyYspeed = Math.floor(Math.random()*(9 - 3) + 2);
+                enemy.enemyYpos = 0 - enemy.ENEMY_SIZE;
+                
+//                var enemyPos = Math.floor(Math.random()* 2) + 1;
+                enemy.enemyXpos = Math.floor(Math.random()*(canvas.width-enemy.ENEMY_SIZE));
+                enemy.enemyYspeed = Math.floor(Math.random()*(9 - 3) + 2);
             }
             
-            if(enemy.enemyYpos + enemy.ENEMY_SIZE > playerYpos && enemy.enemyYpos < playerYpos + PLAYER_SIZE &&             enemy.enemyXpos + enemy.ENEMY_SIZE > playerXpos && enemy.enemyXpos < playerXpos + PLAYER_SIZE){
+            if(enemy.enemyYpos + enemy.ENEMY_SIZE > playerYpos && enemy.enemyYpos < playerYpos + PLAYER_SIZE && enemy.enemyXpos + enemy.ENEMY_SIZE > playerXpos && enemy.enemyXpos < playerXpos + PLAYER_SIZE){
                playerXpos = 250;
                playerYpos = 500;
+               
                 deathscreen = true;
                }
             });
@@ -205,7 +202,6 @@
             userName = prompt('Enter Username');
         }
         
-        //These are all the difficultys 
         var difficulty = 'Easy';
         var pass = false;
         while (pass == false){
@@ -226,6 +222,9 @@
             } //Hard difficulty
         }
         
+     
+              
+
         
         // Key Released Function
         function keyReleased(evt){
@@ -246,7 +245,7 @@
             }
             
         }
-        //Player moves
+        //player moves
     function playerMove(){
         if (leftKeyPress){
             playerXpos -= playerXspeed;
@@ -264,14 +263,13 @@
             pass = true;
         }
     }
-    
-    // This displays the background behind the image
+
     function colorRect(x,y,w,h,c){
         canvasContext.fillStyle = c;
         canvasContext.fillRect(x,y,w,h);
     }
 
-    //This guides the custom images to display example width height ect
+
     function drawImage(src,x,y,w,h){
         canvasContext.drawImage(src,x,y,w,h);
 
