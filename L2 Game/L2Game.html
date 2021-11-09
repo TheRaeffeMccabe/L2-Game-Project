@@ -33,7 +33,8 @@
     //Username Difficulty
     var userName = '';
     var deathscreen = false;
-    
+    var score = timer;
+        
     // Enemy Vars
     var enemyPic = new Image();
     enemyPic.src= 'Images/Enemy Edited.png';
@@ -85,11 +86,12 @@
         // This will activate the win screen after 40 secounds 
         if(timer > 4000){
            winscreen = true;
+            
         }   
             //These display the character and background
             drawImage(background,0,0,backgroundHeight,backgroundWidth,'background')// Canvas
             drawImage(player,playerXpos,playerYpos,80,60,'red')// Player
-
+            
             
              if(startingPos){
                for(i = 0; i < totalEnimies; i++){
@@ -105,17 +107,18 @@
             drawnEnemy();
             
         }
+        
         //Display Death Screen
         if (deathscreen == true){
+                score = timer;
                 drawImage(DeathScreen,-50,-70,DeathScreenWidth,DeathScreenHeight,'DeathScreen')
-                
+                colorText(userName + ' Reached a time of ' + score, 50, 100, '20px Arial', 'white');
             }
         //Display Win Screen
         if (winscreen == true){
+                score = timer;
                 drawImage(WinScreen,-50,-70,WinScreenWidth,WinScreenHeight,'WinScreen')
-                colorText(userName, -50, -70, '70px Arial', 'white')
-                colorText(timer, -50, -70, '70px Arial', 'white')
-                
+                colorText(userName + ' Reached a time of ' + timer, 50, 100, '20px Arial', 'white');
             }
 
     }//MainLoop End
